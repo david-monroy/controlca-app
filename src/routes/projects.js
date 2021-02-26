@@ -45,10 +45,11 @@ router.put('/projects/edit-project/:id', async (req, res) => {
     res.redirect('/projects');
 });
 
-router.delete('projects/delete/:id', async (req, res) => {
-    const project = await Project.findByIdAndDelete(req.params.id);
+router.delete('/projects/delete/:id', async (req, res) => {
     console.log(req.params.id);
-    redirect('/projects');
+    await Project.findByIdAndDelete(req.params.id);
+    
+    res.redirect('/projects');
 });
 
 module.exports = router;
