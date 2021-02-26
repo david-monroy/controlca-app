@@ -8,7 +8,7 @@
                     {{ this.name }} <a href="/projects/edit/{{this._id}}"><i class="fas fa-edit"></i></a>
                 </h4>
                 <p>
-                    {{ this.description }} {{this._id}}
+                    {{ this.description }}
                 </p>
                 <form action="/projects/delete/{{this._id}}?_method=DELETE" method="POST">
                     <input type="hidden" name="_method" value="DELETE">
@@ -26,4 +26,13 @@
         </div>
 
     {{/each}}
+</div>
+<div class="row d-flex justify-content-center">
+    <div class="col-md-2">
+        <form action="/projects/add">
+            <button class="btn btn-success btn-block" type="submit">
+                Agregar Proyecto
+            </button>
+        </form>
+    </div>
 </div>

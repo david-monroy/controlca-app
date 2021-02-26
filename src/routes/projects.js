@@ -25,6 +25,7 @@ router.post('/projects/new-project', async (req, res) => {
     }else{
         const newProject = new Project({ name, description });
         await newProject.save();
+        req.flash('success_msg', '¡Proyecto agregado!')
         res.redirect('/projects');
     }
 });
@@ -42,13 +43,14 @@ router.get('/projects/edit/:id', async (req, res) => {
 router.put('/projects/edit-project/:id', async (req, res) => {
     const { name, description } = req.body;
     await Project.findByIdAndUpdate(req.params.id, {name, description});
+    req.flash('success_msg', '¡Proyecto editado correctamente!')
     res.redirect('/projects');
 });
 
 router.delete('/projects/delete/:id', async (req, res) => {
     console.log(req.params.id);
     await Project.findByIdAndDelete(req.params.id);
-    
+    req.flash('success_msg', '¡Proyecto eliminado correctamente!')
     res.redirect('/projects');
 });
 
