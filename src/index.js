@@ -26,7 +26,7 @@ app.use(session({
     secret: 'mysecretapp',
     resave: true,
     saveUninitialized: true
-}))
+}));
 
 // Global Variables
 

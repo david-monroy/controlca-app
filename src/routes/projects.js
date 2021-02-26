@@ -1,11 +1,13 @@
 const express = require("express");
 const router = express.Router();
 
+const Project = require('../models/Project');
+
 router.get('/projects/add', (req, res) => {
     res.render('projects/new-project');
 });
 
-router.post('/projects/new-project', (req, res) => {
+router.post('/projects/new-project', async (req, res) => {
     const { name, description } = req.body;
     const errors = [];
     if (!name){
@@ -21,12 +23,32 @@ router.post('/projects/new-project', (req, res) => {
             description
         });
     }else{
-        res.send('OK');
+        const newProject = new Project({ name, description });
+        await newProject.save();
+        res.redirect('/projects');
     }
 });
 
-router.get('/projects', (req, res) => {
-    res.send('Bien');
+router.get('/projects', async (req, res) => {
+    const projects = await Project.find().lean();
+    res.render('projects/all-projects', {projects});
+});
+
+router.get('/projects/edit/:id', async (req, res) => {
+    const project = await Project.findById(req.params.id);
+    res.render('projects/edit-project', {project});
+});
+
+router.put('/projects/edit-project/:id', async (req, res) => {
+    const { name, description } = req.body;
+    await Project.findByIdAndUpdate(req.params.id, {name, description});
+    res.redirect('/projects');
+});
+
+router.delete('projects/delete/:id', async (req, res) => {
+    const project = await Project.findByIdAndDelete(req.params.id);
+    console.log(req.params.id);
+    redirect('/projects');
 });
 
 module.exports = router;
