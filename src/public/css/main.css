@@ -1,7 +1,41 @@
 body {
-    background-color: blue !important;
+    background: #c6ebc9;
 }
 
-.logo{
-    width: 50%;
+.background-menu {
+    height: 500px;
+    background-color: white !important;
+    border-radius: 20px;
+}
+
+/* Botones menu principal */
+
+.btn-menu {
+    width: 300px;
+    height: 180px;
+    font-size: 34px;
+    background-color: #70af85;
+    color: white;
+    border-radius: 20px;
+    transition: .3s;
+    border: none;
+}
+.btn-menu:hover{
+    background-color: #347349;
+}
+.btn-menu i{
+    font-size: 54px;
+}
+.btn-menu p{
+    margin: 0 !important;
+}
+
+/* Projects */
+
+.project-card{
+    width: 100%;
+}
+
+.space-right{
+    margin-right: 10px;
 }

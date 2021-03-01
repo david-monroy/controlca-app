@@ -9,7 +9,7 @@ router.get('/projects/add', isAuthenticated, (req, res) => {
 });
 
 router.post('/projects/add', isAuthenticated, async (req, res) => {
-    const { name, description } = req.body;
+    const { name, description, code, area } = req.body;
     const errors = [];
     if (!name){
         errors.push({text: 'Por favor inserte un nombre'});
@@ -21,11 +21,13 @@ router.post('/projects/add', isAuthenticated, async (req, res) => {
         res.render('projects/new-project', {
             errors,
             name,
-            description
+            description,
+            code,
+            area
         });
     }else{
-        const newProject = new Project({ name, description });
-        newProject.user = req.user.id;
+        const newProject = new Project({ name, description, code, area });
+        newProject.leader = req.user.id;
         await newProject.save();
         req.flash('success_msg', '¡Proyecto agregado!')
         res.redirect('/projects');
@@ -35,7 +37,7 @@ router.post('/projects/add', isAuthenticated, async (req, res) => {
 router.get('/projects', isAuthenticated, async (req, res) => {
     var projects = '';
     if (req.user.rol == 'Líder'){
-        projects = await Project.find({user: req.user.id}).lean();
+        projects = await Project.find({leader: req.user.id}).lean();
     } else if (req.user.rol == 'Administrador'){
         projects = await Project.find().lean();
     }
@@ -48,8 +50,8 @@ router.get('/projects/edit/:id', isAuthenticated, async (req, res) => {
 });
 
 router.put('/projects/edit/:id', isAuthenticated, async (req, res) => {
-    const { name, description } = req.body;
-    await Project.findByIdAndUpdate(req.params.id, {name, description});
+    const { name, description, code, area } = req.body;
+    await Project.findByIdAndUpdate(req.params.id, {name, description, code, area });
     req.flash('success_msg', '¡Proyecto editado correctamente!')
     res.redirect('/projects');
 });
