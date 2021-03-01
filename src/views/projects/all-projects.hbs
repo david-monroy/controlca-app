@@ -17,17 +17,8 @@
             </div>
         </div>
     </div>
-    {{else}}
-        <div class="card mx-auto">
-            <div class="card-body">
-                <p class="lead">¡No hay proyectos aún!</p>
-                <a href="/projects/add" class="btn btn-success btn-block">Crea uno</a>
-            </div>
-        </div>
 
-    {{/each}}
-</div>
-<div class="row d-flex justify-content-center">
+    <div class="row d-flex justify-content-center">
     <div class="col-md-2 d-flex justify-content-center">
         <form action="/projects/add">
             <button class="btn btn-success btn-block" type="submit">
@@ -45,3 +36,15 @@
         </form>
     </div>
 </div>
+
+    {{else}}
+        <div class="card mx-auto my-4">
+            <div class="card-body">
+                <p class="lead">¡No hay proyectos aún!</p>
+                <a href="/projects/add" class="btn btn-success btn-block">Crea uno</a>
+            </div>
+        </div>
+
+    {{/each}}
+</div>
+

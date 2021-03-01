@@ -25,6 +25,7 @@ router.post('/projects/new-project', isAuthenticated, async (req, res) => {
         });
     }else{
         const newProject = new Project({ name, description });
+        newProject.user = req.user.id;
         await newProject.save();
         req.flash('success_msg', '¡Proyecto agregado!')
         res.redirect('/projects');
@@ -32,7 +33,7 @@ router.post('/projects/new-project', isAuthenticated, async (req, res) => {
 });
 
 router.get('/projects',isAuthenticated, async (req, res) => {
-    const projects = await Project.find().lean();
+    const projects = await Project.find({user: req.user.id}).lean();
     res.render('projects/all-projects', {projects});
 });
 
