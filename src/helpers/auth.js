@@ -16,4 +16,12 @@ helpers.isAdmin = (req, res, next) => {
     res.redirect('/');
 };
 
+helpers.isLeader = (req, res, next) => {
+    if (req.user.rol == 'Líder' || req.user.rol == 'Administrador'){
+        return next();
+    }
+    req.flash('error_msg', 'No autorizado');
+    res.redirect('/');
+};
+
 module.exports = helpers;

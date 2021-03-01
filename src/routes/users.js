@@ -6,8 +6,9 @@ const User = require('../models/User');
 
 const passport = require('passport');
 
-router.get('/users', isAuthenticated, (req, res) => {
-    res.render('users/users-menu');
+router.get('/users', isAdmin, isAuthenticated, async (req, res) => {
+    const users = await User.find().lean();
+    res.render('users/all-users', {users});
 });
 
 router.get('/users/login', (req, res) => {
@@ -20,11 +21,11 @@ router.post('/users/login', passport.authenticate('local', {
     failureFlash: true
 }));
 
-router.get('/users/signup', isAdmin, (req, res) => {
+router.get('/users/signup', (req, res) => {
     res.render('users/new-user');
 });
 
-router.post('/users/signup', async (req, res) => {
+router.post('/users/signup', isAdmin, isAuthenticated, async (req, res) => {
     const { name, lastname, email, password, confirmPassword, rol } = req.body;
     const errors = [];
     if ( name.length == 0 || lastname.length == 0 || email.length == 0 || password.length == 0 || confirmPassword.length == 0 ){
@@ -53,6 +54,25 @@ router.post('/users/signup', async (req, res) => {
 router.get('/users/logout', (req, res) => {
     req.logout();
     res.redirect('/');
+});
+
+router.get('/users/edit/:id', isAdmin, isAuthenticated, async (req, res) => {
+    const user = await User.findById(req.params.id);
+    res.render('users/edit-user', {user});
+});
+
+router.put('/users/edit/:id', isAdmin, isAuthenticated, async (req, res) => {
+    const { name, lastname, email, rol } = req.body;
+    await User.findByIdAndUpdate(req.params.id, {name, lastname, email, rol});
+    req.flash('success_msg', '¡Usuario editado correctamente!')
+    res.redirect('/users');
+});
+
+router.delete('/users/delete/:id', isAdmin, isAuthenticated, async (req, res) => {
+    console.log(req.params.id);
+    await User.findByIdAndDelete(req.params.id);
+    req.flash('success_msg', '¡Usuario eliminado correctamente!')
+    res.redirect('/users');
 });
 
 module.exports = router;

@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { isAuthenticated } = require('../helpers/auth');
+const { isAuthenticated, isLeader, isAdmin } = require('../helpers/auth');
 
 const Project = require('../models/Project');
 
@@ -8,7 +8,7 @@ router.get('/projects/add', isAuthenticated, (req, res) => {
     res.render('projects/new-project');
 });
 
-router.post('/projects/new-project', isAuthenticated, async (req, res) => {
+router.post('/projects/add', isAuthenticated, async (req, res) => {
     const { name, description } = req.body;
     const errors = [];
     if (!name){
@@ -32,8 +32,13 @@ router.post('/projects/new-project', isAuthenticated, async (req, res) => {
     }
 });
 
-router.get('/projects',isAuthenticated, async (req, res) => {
-    const projects = await Project.find({user: req.user.id}).lean();
+router.get('/projects', isAuthenticated, async (req, res) => {
+    var projects = '';
+    if (req.user.rol == 'Líder'){
+        projects = await Project.find({user: req.user.id}).lean();
+    } else if (req.user.rol == 'Administrador'){
+        projects = await Project.find().lean();
+    }
     res.render('projects/all-projects', {projects});
 });
 
@@ -42,7 +47,7 @@ router.get('/projects/edit/:id', isAuthenticated, async (req, res) => {
     res.render('projects/edit-project', {project});
 });
 
-router.put('/projects/edit-project/:id', isAuthenticated, async (req, res) => {
+router.put('/projects/edit/:id', isAuthenticated, async (req, res) => {
     const { name, description } = req.body;
     await Project.findByIdAndUpdate(req.params.id, {name, description});
     req.flash('success_msg', '¡Proyecto editado correctamente!')

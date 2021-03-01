@@ -6,7 +6,7 @@
             <h3>Editar proyecto</h3>
         </div>
         <div class="card-body">
-            <form action="/projects/edit-project/{{_id}}?_method=PUT" method="POST">
+            <form action="/projects/edit/{{_id}}?_method=PUT" method="POST">
                 <input type="hidden" name="_method" value="PUT">
                 <div class="form-group">
                     <input type="text" name="name" class="form-control" placeholder="{{name}}" value="{{name}}">
