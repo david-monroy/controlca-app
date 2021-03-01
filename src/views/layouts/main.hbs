@@ -14,14 +14,12 @@
     </head>
 <body>
     
-    {{!-- <p>Navigation</p> --}}
+    {{> navigation }}
 
-    <main>
-        <div class="container">
+    <main class="container">
             {{> messages }}
             {{> errors }}
             {{{ body }}}
-        </div>
     </main>
 
     {{!-- <p>Footer</p> --}}
