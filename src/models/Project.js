@@ -9,6 +9,8 @@ const ProjectSchema = new Schema({
     code: { type: String, required: true },
     area: { type: String, required: true },
     total_hours: { type: Number, default: 0 },
+
+    
 });
 
 module.exports = mongoose.model('Project', ProjectSchema);
