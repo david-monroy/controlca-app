@@ -3,6 +3,8 @@ const LocalStrategy = require('passport-local').Strategy;
 
 const User = require('../models/User');
 
+// Configuración de Autenticación
+
 passport.use(new LocalStrategy({
     usernameField: 'email'
 }, async (email, password, done) => {

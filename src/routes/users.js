@@ -6,25 +6,30 @@ const User = require('../models/User');
 
 const passport = require('passport');
 
+// Listar Usuarios - GET
 router.get('/users', isAdmin, isAuthenticated, async (req, res) => {
     const users = await User.find().lean();
     res.render('users/all-users', {users});
 });
 
+// Login Usuarios - GET
 router.get('/users/login', (req, res) => {
     res.render('users/login');
 });
 
+// Login Usuarios - POST
 router.post('/users/login', passport.authenticate('local', {
     successRedirect: '/',
     failureRedirect: '/users/login',
     failureFlash: true
 }));
 
+// Registrar Usuarios - GET
 router.get('/users/signup', (req, res) => {
     res.render('users/new-user');
 });
 
+// Registrar Usuarios - POST
 router.post('/users/signup', isAdmin, isAuthenticated, async (req, res) => {
     const { name, lastname, email, password, confirmPassword, rol } = req.body;
     const errors = [];
@@ -51,16 +56,19 @@ router.post('/users/signup', isAdmin, isAuthenticated, async (req, res) => {
     }
 });
 
+// Cerrar sesión - GET
 router.get('/users/logout', (req, res) => {
     req.logout();
     res.redirect('/');
 });
 
+// Editar Usuarios - GET
 router.get('/users/edit/:id', isAdmin, isAuthenticated, async (req, res) => {
     const user = await User.findById(req.params.id);
     res.render('users/edit-user', {user});
 });
 
+// Editar Usuarios - PUT
 router.put('/users/edit/:id', isAdmin, isAuthenticated, async (req, res) => {
     const { name, lastname, email, rol } = req.body;
     await User.findByIdAndUpdate(req.params.id, {name, lastname, email, rol});
@@ -68,9 +76,10 @@ router.put('/users/edit/:id', isAdmin, isAuthenticated, async (req, res) => {
     res.redirect('/users');
 });
 
+// Eliminar Usuarios - DELETE
 router.delete('/users/delete/:id', isAdmin, isAuthenticated, async (req, res) => {
-    console.log(req.params.id);
-    await User.findByIdAndDelete(req.params.id);
+    const newStatus = 'Eliminado';
+    await User.findByIdAndUpdate(req.params.id, {newStatus});
     req.flash('success_msg', '¡Usuario eliminado correctamente!')
     res.redirect('/users');
 });

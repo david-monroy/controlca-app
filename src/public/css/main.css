@@ -3,7 +3,7 @@ body {
 }
 
 .background-menu {
-    height: 500px;
+    height: 450px;
     background-color: white !important;
     border-radius: 20px;
 }
@@ -38,4 +38,12 @@ body {
 
 .space-right{
     margin-right: 10px;
+}
+.form-divider{
+    width: 100%;
+}
+.subtitle{
+    background-color: aqua;
+    margin: 5px 0;
+    color: red  !important;
 }

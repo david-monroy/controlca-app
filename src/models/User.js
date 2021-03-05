@@ -8,9 +8,11 @@ const UserSchema = new Schema({
     email: { type: String, required: true },
     password: { type: String, required: true },
     rol: { type: String, required: true },
-    createdDate: { type: Date, default: Date.now }
+    createdDate: { type: Date, default: Date.now },
+    status: { type: String, default: 'Activo' }
 });
 
+// Encriptado de contraseñas
 UserSchema.methods.encryptPassword = async (password) => {
     const salt = await bcrypt.genSalt(10);
     const hash = bcrypt.hash(password, salt);

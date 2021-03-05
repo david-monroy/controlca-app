@@ -1,5 +1,7 @@
 const helpers = {};
 
+// Métodos de autorización de accesos
+
 helpers.isAuthenticated = (req, res, next) => {
     if(req.isAuthenticated()){
         return next();

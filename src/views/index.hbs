@@ -1,14 +1,27 @@
-<div class="bg-light mt-4 p-4 d-flex align-items-center justify-content-center background-menu text-center">
+<div class="row text-center my-4">
+    <h2 class="m-0">Bienvenido, {{userName}}</h2 class="m-0">
+</div>
+<div class="bg-light mt-0 p-4 d-flex align-items-center justify-content-center background-menu text-center">
+    {{#if isLeader}}
     <form action="/projects" method="GET">
         <button type="submit" class="btn btn-primary btn-menu btn-lg mx-3">
             <i class="fas fa-code-branch"></i>
             <p>Proyectos</p>
         </button>
     </form>
+    {{/if}}
+    {{#if isAdmin}}
     <form action="/users" method="GET">
         <button type="submit" class="btn btn-primary btn-menu btn-lg mx-3">
             <i class="fas fa-users"></i>
             <p>Usuarios</p>
+        </button>
+    </form>
+    {{/if}}
+    <form action="/" method="GET">
+        <button type="submit" class="btn btn-primary btn-menu btn-lg mx-3">
+            <i class="fas fa-users"></i>
+            <p>Cargar Horas</p>
         </button>
     </form>
 </div>
